@@ -1,0 +1,8 @@
+# Add this line to your .gitignore
+.env
+# Credentials and environment files
+credentials.json
+*.pem
+# Google OAuth credentials
+backend/credentials.json
+backend/token.pickle
