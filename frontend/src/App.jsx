@@ -14,6 +14,7 @@ import CourseManagement from "./pages/Instructor/CourseManagement/CourseManageme
 import CourseDetails from "./pages/Instructor/CourseManagement/CourseDetails";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { CourseProvider } from './contexts/CourseContext';
 
 function Logout() {
     localStorage.removeItem('accessToken');
@@ -29,37 +30,39 @@ function RegisterAndLogout() {
 
 function App() {
     return (
-        <BrowserRouter>
-            <ToastContainer />
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<RegisterAndLogout />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password/:token" element={<ResetPassword />} />
-                <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirm />} />
-                <Route path="/logout" element={<Logout />} />
-                
-                {/* Protected Routes */}
-                <Route path="/home" element={
-                    <ProtectedRoute>
-                        <Home />
-                    </ProtectedRoute>
-                } />
-                
-                <Route path="/instructor" element={<ProtectedRoute requiredRole="Instructor" />}>
-                    <Route path="dashboard" element={<InstructorDashboard />} />
-                    <Route path="courses" element={<InstructorCourses />} />
-                    <Route path="course-management/*" element={<CourseManagement />} />
-                    <Route path="course-management/details" element={<CourseDetails />} />
-                </Route>
-                
-                {/* Default route */}
-                <Route path="/" element={<Navigate to="/home" replace />} />
-                
-                {/* 404 route */}
-                <Route path="*" element={<NotFound />} />
-            </Routes>
-        </BrowserRouter>
+        <CourseProvider>
+            <BrowserRouter>
+                <ToastContainer />
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<RegisterAndLogout />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
+                    <Route path="/reset-password-confirm/:uid/:token" element={<ResetPasswordConfirm />} />
+                    <Route path="/logout" element={<Logout />} />
+                    
+                    {/* Protected Routes */}
+                    <Route path="/home" element={
+                        <ProtectedRoute>
+                            <Home />
+                        </ProtectedRoute>
+                    } />
+                    
+                    <Route path="/instructor" element={<ProtectedRoute requiredRole="Instructor" />}>
+                        <Route path="dashboard" element={<InstructorDashboard />} />
+                        <Route path="courses" element={<InstructorCourses />} />
+                        <Route path="course-management/*" element={<CourseManagement />} />
+                        <Route path="course-management/details" element={<CourseDetails />} />
+                    </Route>
+                    
+                    {/* Default route */}
+                    <Route path="/" element={<Navigate to="/home" replace />} />
+                    
+                    {/* 404 route */}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </BrowserRouter>
+        </CourseProvider>
     );
 }
 
